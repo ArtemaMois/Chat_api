@@ -1,0 +1,31 @@
+main{
+    width: 90%;
+    margin: 10 auto;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(182, 255, 255, 0.445);
+}
+
+.email-verification__header{
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+}
+
+.email-verification__body{
+    display: flex;
+    flex-direction: column;
+}
+
+.email-verification__text{
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+}
+
+.email-verification__code{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 40px;
+    letter-spacing: 5px;
+}
