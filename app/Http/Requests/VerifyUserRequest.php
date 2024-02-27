@@ -10,7 +10,7 @@ class VerifyUserRequest extends FormRequest
     {
         return [
             'email' => ['required', 'exists:unverified_users,email', 'email'],
-            'email_verify_code' => ['required', 'min:6', 'max:6'],
+            'email_verify_code' => ['required'],
         ];
     }
 }

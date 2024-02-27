@@ -9,7 +9,7 @@
 </head>
 <body>
     <main>
-        <p class="email-verification__header">Спасибо, что используете наш мессенджер!</p>
+        <h1>Подтверждение электронной почты</h1>
         <div class="email-verification__body">
             <p class="email-verification__text">Ваш код для подтвеждения электронной почты:</p>
             <p class="email-verification__code">{{ $code }}</p>

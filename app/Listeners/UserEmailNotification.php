@@ -5,6 +5,8 @@ namespace App\Listeners;
 use App\Events\UserCreated;
 use App\Exceptions\ErrorSendingEmailException;
 use App\Facades\MailFacade;
+use App\Jobs\SendWelcomeEmailJob;
+use App\Jobs\VerifyEmailJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
@@ -25,9 +27,6 @@ class UserEmailNotification
      */
     public function handle(UserCreated $event): void
     {
-        $data = MailFacade::createEmailBody($event->otp);
-        if(gettype(MailFacade::sendEmail($event->email, $data)) == 'string'){
-            throw new ErrorSendingEmailException(MailFacade::sendEmail($event->email, $data));
-        }
+        dispatch(new SendWelcomeEmailJob($event->email));
     }
 }

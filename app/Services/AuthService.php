@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Events\UserCreated;
+use App\Events\VerifyEmail;
+use App\Http\Requests\ResetVerifyCodeRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\VerifyUserRequest;
 use App\Models\UnverifiedUser;
@@ -21,7 +23,8 @@ class AuthService
         $otp = (int)Random::generate(6, '0-9');
         $data['email_verify_code'] = $otp;
         $user = UnverifiedUser::query()->create($data);
-        event(new UserCreated($request->email, $otp));
+        event(new UserCreated($request->email));
+        event(new VerifyEmail($request->email, $otp));
         return $user;
     }
 
@@ -29,8 +32,6 @@ class AuthService
     {
         $unverifiedUser = UnverifiedUser::query()->where('email', $request->email)->first();
         if ($unverifiedUser->email_verify_code == $request->email_verify_code) {
-            // $data['email_verified_at'] = Carbon::now()->format('Y-m-d H:i:s');
-            // return $data;
             $user = User::query()->create([
                 'name' => $unverifiedUser->name,
                 'surname' => $unverifiedUser->surname,
@@ -43,5 +44,14 @@ class AuthService
         } else {
             return null;
         }
+    }
+
+    public function resetVerifyCode(ResetVerifyCodeRequest $request)
+    {
+        $otp = (int)Random::generate(6, '0-9');
+        $unverifiedUser = UnverifiedUser::query()->where('email', $request->email)->first();
+        $unverifiedUser->update(['email_verify_code' => $otp]);
+        event(new VerifyEmail($request->email, $otp));
+        return $unverifiedUser;
     }
 }

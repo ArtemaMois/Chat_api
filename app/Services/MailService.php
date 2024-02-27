@@ -31,11 +31,19 @@ class MailService
         }
     }
 
-    public function createEmailBody(int $otp)
+    public function createWelcomeEmail()
+    {
+        return [
+            'header' => 'Приветственное письмо',
+            'body' => view('welcome'),
+        ];
+    }
+
+    public function createVerifyEmail(int $otp)
     {
         return [
             'header' => 'Подтверждение электронной почты',
-            'body' => view('verification.verify', ['code' => $otp])
+            'body' => view('verification.verify', ['code' => $otp]),
         ];
     }
 }
